@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE Workspace>
+<Workspace xmlns="http://www.qlcplus.org/Workspace" CurrentWindow="ShowManager">
+ <Creator>
+  <Name>Q Light Controller Plus</Name>
+  <Version>4.12.4</Version>
+  <Author>Christian</Author>
+ </Creator>
+ <Engine>
+  <InputOutputMap>
+   <Universe Name="Universe 1" ID="0">
+    <Output Plugin="DMX USB" Line="0">
+     <PluginParameters UniverseChannels="16"/>
+    </Output>
+   </Universe>
+   <Universe Name="Universe 2" ID="1"/>
+   <Universe Name="Universe 3" ID="2"/>
+   <Universe Name="Universe 4" ID="3"/>
+  </InputOutputMap>
+  <Fixture>
+   <Manufacturer>Lixada</Manufacturer>
+   <Model>LEDs Par Lights 8 Kanal RGBW</Model>
+   <Mode>8 Channels</Mode>
+   <ID>0</ID>
+   <Name>LEDs Par Lights 8 Kanal RGBW #1</Name>
+   <Universe>0</Universe>
+   <Address>0</Address>
+   <Channels>8</Channels>
+  </Fixture>
+  <Fixture>
+   <Manufacturer>Lixada</Manufacturer>
+   <Model>LEDs Par Lights 8 Kanal RGBW</Model>
+   <Mode>8 Channels</Mode>
+   <ID>1</ID>
+   <Name>LEDs Par Lights 8 Kanal RGBW #2</Name>
+   <Universe>0</Universe>
+   <Address>8</Address>
+   <Channels>8</Channels>
+  </Fixture>
+  <Function ID="0" Type="Show" Name="TestShow">
+   <TimeDivision Type="Time" BPM="120"/>
+   <Track ID="0" Name="Music" isMute="0">
+    <ShowFunction ID="1" StartTime="0" Duration="169340" Color="#608053" Locked="1"/>
+   </Track>
+   <Track ID="1" Name="Light1" SceneID="2" isMute="0">
+    <ShowFunction ID="14" StartTime="17500" Duration="15075" Color="#556b80"/>
+    <ShowFunction ID="17" StartTime="33250" Duration="15075" Color="#556b80"/>
+   </Track>
+   <Track ID="2" Name="Light2" SceneID="5" isMute="0">
+    <ShowFunction ID="15" StartTime="18000" Duration="14575" Color="#556b80"/>
+    <ShowFunction ID="18" StartTime="33750" Duration="14575" Color="#556b80"/>
+   </Track>
+   <Track ID="3" Name="Light1+2" SceneID="9" isMute="0">
+    <ShowFunction ID="10" StartTime="0" Duration="8000" Color="#556b80"/>
+    <ShowFunction ID="11" StartTime="8020" Duration="8000" Color="#556b80"/>
+    <ShowFunction ID="12" StartTime="16080" Duration="500" Color="#556b80"/>
+   </Track>
+  </Function>
+  <Function ID="1" Type="Audio" Name="onlymp3.to - Dxrk ダーク RAVE Official Audio -PTZgxW_3LIQ-192k-1705774795.mp3">
+   <Speed FadeIn="0" FadeOut="0" Duration="0"/>
+   <RunOrder>SingleShot</RunOrder>
+   <Source>onlymp3.to - Dxrk ダーク RAVE Official Audio -PTZgxW_3LIQ-192k-1705774795.mp3</Source>
+  </Function>
+  <Function ID="2" Type="Scene" Name="Scene for TestShow - Track 2" Hidden="True">
+   <Speed FadeIn="0" FadeOut="0" Duration="0"/>
+   <FixtureVal ID="0">0,0,1,0,2,0,3,0,4,0,5,0,6,0,7,0</FixtureVal>
+  </Function>
+  <Function ID="3" Type="Sequence" Name="New Sequence 3" BoundScene="2">
+   <Speed FadeIn="0" FadeOut="0" Duration="0"/>
+   <Direction>Forward</Direction>
+   <RunOrder>SingleShot</RunOrder>
+   <SpeedModes FadeIn="Default" FadeOut="Default" Duration="Common"/>
+  </Function>
+  <Function ID="4" Type="Sequence" Name="" BoundScene="2">
+   <Speed FadeIn="0" FadeOut="0" Duration="500"/>
+   <Direction>Forward</Direction>
+   <RunOrder>SingleShot</RunOrder>
+   <SpeedModes FadeIn="Common" FadeOut="Common" Duration="Common"/>
+   <Step Number="0" FadeIn="0" Hold="0" FadeOut="0" Values="8"/>
+   <Step Number="1" FadeIn="0" Hold="0" FadeOut="0" Values="8"/>
+   <Step Number="2" FadeIn="0" Hold="0" FadeOut="0" Values="8"/>
+   <Step Number="3" FadeIn="0" Hold="0" FadeOut="0" Values="8"/>
+   <Step Number="4" FadeIn="0" Hold="0" FadeOut="0" Values="8"/>
+   <Step Number="5" FadeIn="0" Hold="0" FadeOut="0" Values="8"/>
+  </Function>
+  <Function ID="5" Type="Scene" Name="Scene for TestShow - Track 3" Hidden="True">
+   <Speed FadeIn="0" FadeOut="0" Duration="0"/>
+   <FixtureVal ID="1">0,0,1,0,2,0,3,0,4,0,5,0,6,0,7,0</FixtureVal>
+  </Function>
+  <Function ID="6" Type="Sequence" Name="" BoundScene="5">
+   <Speed FadeIn="0" FadeOut="0" Duration="0"/>
+   <Direction>Forward</Direction>
+   <RunOrder>SingleShot</RunOrder>
+   <SpeedModes FadeIn="Default" FadeOut="Default" Duration="Common"/>
+  </Function>
+  <Function ID="7" Type="Sequence" Name="flicker-1" BoundScene="2">
+   <Speed FadeIn="0" FadeOut="0" Duration="0"/>
+   <Direction>Forward</Direction>
+   <RunOrder>SingleShot</RunOrder>
+   <SpeedModes FadeIn="PerStep" FadeOut="PerStep" Duration="PerStep"/>
+  </Function>
+  <Function ID="8" Type="Sequence" Name="flicker-2" BoundScene="5">
+   <Speed FadeIn="0" FadeOut="0" Duration="0"/>
+   <Direction>Forward</Direction>
+   <RunOrder>SingleShot</RunOrder>
+   <SpeedModes FadeIn="Default" FadeOut="Default" Duration="Common"/>
+  </Function>
+  <Function ID="9" Type="Scene" Name="Scene for TestShow - Track 4" Hidden="True">
+   <Speed FadeIn="0" FadeOut="0" Duration="0"/>
+   <FixtureVal ID="0">0,0,1,0,2,0,3,0,4,0,5,0,6,0,7,0</FixtureVal>
+   <FixtureVal ID="1">0,0,1,0,2,0,3,0,4,0,5,0,6,0,7,0</FixtureVal>
+  </Function>
+  <Function ID="10" Type="Sequence" Name="slow flicker" BoundScene="9">
+   <Speed FadeIn="0" FadeOut="0" Duration="8000"/>
+   <Direction>Forward</Direction>
+   <RunOrder>SingleShot</RunOrder>
+   <SpeedModes FadeIn="Default" FadeOut="Default" Duration="Common"/>
+   <Step Number="0" FadeIn="0" Hold="0" FadeOut="0" Values="12">0:0,255,1,1,2,1,3,1,4,255,5,100:1:0,255,1,1,2,1,3,1,4,255,5,100</Step>
+  </Function>
+  <Function ID="11" Type="Sequence" Name="fast flicker" BoundScene="9">
+   <Speed FadeIn="0" FadeOut="0" Duration="8000"/>
+   <Direction>Forward</Direction>
+   <RunOrder>SingleShot</RunOrder>
+   <SpeedModes FadeIn="Default" FadeOut="Default" Duration="Common"/>
+   <Step Number="0" FadeIn="0" Hold="0" FadeOut="0" Values="16">0:0,255,4,255,5,200:1:0,255,4,255,5,200</Step>
+  </Function>
+  <Function ID="12" Type="Sequence" Name="bright" BoundScene="9">
+   <Speed FadeIn="0" FadeOut="500" Duration="500"/>
+   <Direction>Forward</Direction>
+   <RunOrder>SingleShot</RunOrder>
+   <SpeedModes FadeIn="Default" FadeOut="Common" Duration="Common"/>
+   <Step Number="0" FadeIn="0" Hold="0" FadeOut="500" Values="16">0:0,255,1,255,2,255,3,255,4,255:1:0,255,1,255,2,255,3,255,4,255</Step>
+  </Function>
+  <Function ID="13" Type="Sequence" Name="New Sequence 13" BoundScene="2">
+   <Speed FadeIn="0" FadeOut="250" Duration="500"/>
+   <Direction>Forward</Direction>
+   <RunOrder>SingleShot</RunOrder>
+   <SpeedModes FadeIn="Common" FadeOut="Common" Duration="Common"/>
+   <Step Number="0" FadeIn="0" Hold="0" FadeOut="0" Values="8">0:0,255,1,255</Step>
+   <Step Number="1" FadeIn="0" Hold="500" FadeOut="250" Values="8">0:0,255</Step>
+   <Step Number="2" FadeIn="0" Hold="500" FadeOut="250" Values="8">0:0,255,1,255</Step>
+   <Step Number="3" FadeIn="0" Hold="500" FadeOut="250" Values="8">0:0,255</Step>
+   <Step Number="4" FadeIn="0" Hold="500" FadeOut="250" Values="8">0:0,255,1,255</Step>
+   <Step Number="5" FadeIn="0" Hold="500" FadeOut="250" Values="8">0:0,255</Step>
+   <Step Number="6" FadeIn="0" Hold="500" FadeOut="250" Values="8">0:0,255,1,255</Step>
+   <Step Number="7" FadeIn="0" Hold="500" FadeOut="250" Values="8">0:0,255</Step>
+   <Step Number="8" FadeIn="0" Hold="500" FadeOut="250" Values="8">0:0,255,1,255</Step>
+   <Step Number="9" FadeIn="0" Hold="500" FadeOut="250" Values="8">0:0,255</Step>
+   <Step Number="10" FadeIn="0" Hold="500" FadeOut="250" Values="8">0:0,255,1,255</Step>
+   <Step Number="11" FadeIn="0" Hold="500" FadeOut="250" Values="8">0:0,255</Step>
+   <Step Number="12" FadeIn="0" Hold="500" FadeOut="250" Values="8">0:0,255,1,255</Step>
+   <Step Number="13" FadeIn="0" Hold="500" FadeOut="250" Values="8">0:0,255</Step>
+   <Step Number="14" FadeIn="0" Hold="500" FadeOut="250" Values="8">0:0,255,1,255</Step>
+   <Step Number="15" FadeIn="0" Hold="500" FadeOut="250" Values="8">0:0,255</Step>
+   <Step Number="16" FadeIn="0" Hold="500" FadeOut="250" Values="8">0:0,255,1,255</Step>
+   <Step Number="17" FadeIn="0" Hold="500" FadeOut="250" Values="8">0:0,255</Step>
+   <Step Number="18" FadeIn="0" Hold="500" FadeOut="250" Values="8">0:0,255,1,255</Step>
+   <Step Number="19" FadeIn="0" Hold="500" FadeOut="250" Values="8">0:0,255</Step>
+   <Step Number="20" FadeIn="0" Hold="500" FadeOut="250" Values="8">0:0,255,1,255</Step>
+   <Step Number="21" FadeIn="0" Hold="500" FadeOut="250" Values="8">0:0,255</Step>
+   <Step Number="22" FadeIn="0" Hold="500" FadeOut="250" Values="8">0:0,255,1,255</Step>
+   <Step Number="23" FadeIn="0" Hold="500" FadeOut="250" Values="8">0:0,255</Step>
+   <Step Number="24" FadeIn="0" Hold="500" FadeOut="250" Values="8">0:0,255,1,255</Step>
+   <Step Number="25" FadeIn="0" Hold="500" FadeOut="250" Values="8">0:0,255</Step>
+   <Step Number="26" FadeIn="0" Hold="500" FadeOut="250" Values="8">0:0,255,1,255</Step>
+   <Step Number="27" FadeIn="0" Hold="500" FadeOut="250" Values="8">0:0,255</Step>
+   <Step Number="28" FadeIn="0" Hold="500" FadeOut="250" Values="8">0:0,255,1,255</Step>
+   <Step Number="29" FadeIn="0" Hold="500" FadeOut="250" Values="8">0:0,255</Step>
+  </Function>
+  <Function ID="14" Type="Sequence" Name="rhythm 1 A" BoundScene="2">
+   <Speed FadeIn="0" FadeOut="0" Duration="500"/>
+   <Direction>Forward</Direction>
+   <RunOrder>SingleShot</RunOrder>
+   <SpeedModes FadeIn="PerStep" FadeOut="PerStep" Duration="PerStep"/>
+   <Step Number="0" FadeIn="0" Hold="500" FadeOut="0" Values="8">0:0,255,1,255</Step>
+   <Step Number="1" FadeIn="250" Hold="1250" FadeOut="0" Values="8">0:0,255</Step>
+   <Step Number="2" FadeIn="0" Hold="500" FadeOut="0" Values="8">0:0,255,2,255</Step>
+   <Step Number="3" FadeIn="250" Hold="1250" FadeOut="0" Values="8">0:0,255</Step>
+   <Step Number="4" FadeIn="0" Hold="500" FadeOut="0" Values="8">0:0,255,3,255</Step>
+   <Step Number="5" FadeIn="250" Hold="1250" FadeOut="0" Values="8">0:0,255</Step>
+   <Step Number="6" FadeIn="0" Hold="500" FadeOut="0" Values="8">0:0,255,1,255</Step>
+   <Step Number="7" FadeIn="250" Hold="1250" FadeOut="0" Values="8">0:0,255</Step>
+   <Step Number="8" FadeIn="0" Hold="500" FadeOut="0" Values="8">0:0,255,2,255</Step>
+   <Step Number="9" FadeIn="250" Hold="1250" FadeOut="0" Values="8">0:0,255</Step>
+   <Step Number="10" FadeIn="0" Hold="500" FadeOut="0" Values="8">0:0,255,3,255</Step>
+   <Step Number="11" FadeIn="250" Hold="1250" FadeOut="0" Values="8">0:0,255</Step>
+   <Step Number="12" FadeIn="0" Hold="500" FadeOut="0" Values="8">0:0,255,4,255</Step>
+   <Step Number="13" FadeIn="250" Hold="1250" FadeOut="0" Values="8">0:0,255</Step>
+   <Step Number="14" FadeIn="0" Hold="250" FadeOut="0" Values="8">0:0,255,4,255</Step>
+   <Step Number="15" FadeIn="0" Hold="325" FadeOut="0" Values="8">0:0,255</Step>
+   <Step Number="16" FadeIn="0" Hold="500" FadeOut="500" Values="8">0:0,255,4,255</Step>
+  </Function>
+  <Function ID="15" Type="Sequence" Name="rhythm 2 A" BoundScene="5">
+   <Speed FadeIn="0" FadeOut="0" Duration="0"/>
+   <Direction>Forward</Direction>
+   <RunOrder>SingleShot</RunOrder>
+   <SpeedModes FadeIn="PerStep" FadeOut="PerStep" Duration="PerStep"/>
+   <Step Number="0" FadeIn="0" Hold="500" FadeOut="0" Values="8">1:0,255,2,255</Step>
+   <Step Number="1" FadeIn="250" Hold="1250" FadeOut="0" Values="8"/>
+   <Step Number="2" FadeIn="0" Hold="500" FadeOut="0" Values="8">1:0,255,3,255</Step>
+   <Step Number="3" FadeIn="250" Hold="1250" FadeOut="0" Values="8"/>
+   <Step Number="4" FadeIn="0" Hold="500" FadeOut="0" Values="8">1:0,255,1,255</Step>
+   <Step Number="5" FadeIn="250" Hold="1250" FadeOut="0" Values="8"/>
+   <Step Number="6" FadeIn="0" Hold="500" FadeOut="0" Values="8">1:0,255,2,255</Step>
+   <Step Number="7" FadeIn="250" Hold="1250" FadeOut="0" Values="8"/>
+   <Step Number="8" FadeIn="0" Hold="500" FadeOut="0" Values="8">1:0,255,3,255</Step>
+   <Step Number="9" FadeIn="250" Hold="1250" FadeOut="0" Values="8"/>
+   <Step Number="10" FadeIn="0" Hold="500" FadeOut="0" Values="8">1:0,255,2,255</Step>
+   <Step Number="11" FadeIn="250" Hold="1250" FadeOut="0" Values="8"/>
+   <Step Number="12" FadeIn="0" Hold="500" FadeOut="0" Values="8">1:0,255,4,255</Step>
+   <Step Number="13" FadeIn="250" Hold="750" FadeOut="0" Values="8"/>
+   <Step Number="14" FadeIn="0" Hold="250" FadeOut="0" Values="8">1:0,255,4,255</Step>
+   <Step Number="15" FadeIn="0" Hold="325" FadeOut="0" Values="8"/>
+   <Step Number="16" FadeIn="0" Hold="500" FadeOut="500" Values="8">1:0,255,4,255</Step>
+  </Function>
+  <Function ID="16" Type="Sequence" Name="New Sequence 16" BoundScene="2">
+   <Speed FadeIn="0" FadeOut="0" Duration="5000"/>
+   <Direction>Forward</Direction>
+   <RunOrder>SingleShot</RunOrder>
+   <SpeedModes FadeIn="Default" FadeOut="Default" Duration="Common"/>
+  </Function>
+  <Function ID="17" Type="Sequence" Name="rhythm 1 B" BoundScene="2">
+   <Speed FadeIn="0" FadeOut="0" Duration="500"/>
+   <Direction>Forward</Direction>
+   <RunOrder>SingleShot</RunOrder>
+   <SpeedModes FadeIn="PerStep" FadeOut="PerStep" Duration="PerStep"/>
+   <Step Number="0" FadeIn="0" Hold="500" FadeOut="0" Values="8">0:0,255,1,255,5,200</Step>
+   <Step Number="1" FadeIn="250" Hold="1250" FadeOut="0" Values="8">0:0,255</Step>
+   <Step Number="2" FadeIn="0" Hold="500" FadeOut="0" Values="8">0:0,255,2,255,5,200</Step>
+   <Step Number="3" FadeIn="250" Hold="1250" FadeOut="0" Values="8">0:0,255</Step>
+   <Step Number="4" FadeIn="0" Hold="500" FadeOut="0" Values="8">0:0,255,3,255,5,200</Step>
+   <Step Number="5" FadeIn="250" Hold="1250" FadeOut="0" Values="8">0:0,255</Step>
+   <Step Number="6" FadeIn="0" Hold="500" FadeOut="0" Values="8">0:0,255,1,255,2,255,5,200</Step>
+   <Step Number="7" FadeIn="250" Hold="1250" FadeOut="0" Values="8">0:0,255</Step>
+   <Step Number="8" FadeIn="0" Hold="500" FadeOut="0" Values="8">0:0,255,1,255,3,255,5,200</Step>
+   <Step Number="9" FadeIn="250" Hold="1250" FadeOut="0" Values="8">0:0,255</Step>
+   <Step Number="10" FadeIn="0" Hold="500" FadeOut="0" Values="8">0:0,255,2,255,3,255,5,200</Step>
+   <Step Number="11" FadeIn="250" Hold="1250" FadeOut="0" Values="8">0:0,255</Step>
+   <Step Number="12" FadeIn="0" Hold="500" FadeOut="0" Values="8">0:0,255,1,255,2,255,3,255,5,200</Step>
+   <Step Number="13" FadeIn="250" Hold="1250" FadeOut="0" Values="8">0:0,255</Step>
+   <Step Number="14" FadeIn="0" Hold="250" FadeOut="0" Values="8">0:0,255,4,255,5,200</Step>
+   <Step Number="15" FadeIn="0" Hold="325" FadeOut="0" Values="8">0:0,255</Step>
+   <Step Number="16" FadeIn="0" Hold="500" FadeOut="500" Values="8">0:0,255,1,255,2,255,3,255,4,255</Step>
+  </Function>
+  <Function ID="18" Type="Sequence" Name="rhythm 2 B" BoundScene="5">
+   <Speed FadeIn="0" FadeOut="0" Duration="0"/>
+   <Direction>Forward</Direction>
+   <RunOrder>SingleShot</RunOrder>
+   <SpeedModes FadeIn="PerStep" FadeOut="PerStep" Duration="PerStep"/>
+   <Step Number="0" FadeIn="0" Hold="500" FadeOut="0" Values="8">1:0,255,2,255,5,200</Step>
+   <Step Number="1" FadeIn="250" Hold="1250" FadeOut="0" Values="8"/>
+   <Step Number="2" FadeIn="0" Hold="500" FadeOut="0" Values="8">1:0,255,3,255,5,200</Step>
+   <Step Number="3" FadeIn="250" Hold="1250" FadeOut="0" Values="8"/>
+   <Step Number="4" FadeIn="0" Hold="500" FadeOut="0" Values="8">1:0,255,1,255,5,200</Step>
+   <Step Number="5" FadeIn="250" Hold="1250" FadeOut="0" Values="8"/>
+   <Step Number="6" FadeIn="0" Hold="500" FadeOut="0" Values="8">1:0,255,1,255,3,255,5,200</Step>
+   <Step Number="7" FadeIn="250" Hold="1250" FadeOut="0" Values="8"/>
+   <Step Number="8" FadeIn="0" Hold="500" FadeOut="0" Values="8">1:0,255,2,255,3,255,5,200</Step>
+   <Step Number="9" FadeIn="250" Hold="1250" FadeOut="0" Values="8"/>
+   <Step Number="10" FadeIn="0" Hold="500" FadeOut="0" Values="8">1:0,255,1,255,2,255,5,200</Step>
+   <Step Number="11" FadeIn="250" Hold="1250" FadeOut="0" Values="8"/>
+   <Step Number="12" FadeIn="0" Hold="500" FadeOut="0" Values="8">1:0,255,1,255,2,255,3,255,5,200</Step>
+   <Step Number="13" FadeIn="250" Hold="750" FadeOut="0" Values="8"/>
+   <Step Number="14" FadeIn="0" Hold="250" FadeOut="0" Values="8">1:0,255,4,255,5,200</Step>
+   <Step Number="15" FadeIn="0" Hold="325" FadeOut="0" Values="8"/>
+   <Step Number="16" FadeIn="0" Hold="500" FadeOut="500" Values="8">1:0,255,1,255,2,255,3,255,4,255</Step>
+  </Function>
+ </Engine>
+ <VirtualConsole>
+  <Frame Caption="">
+   <Appearance>
+    <FrameStyle>None</FrameStyle>
+    <ForegroundColor>Default</ForegroundColor>
+    <BackgroundColor>Default</BackgroundColor>
+    <BackgroundImage>None</BackgroundImage>
+    <Font>Default</Font>
+   </Appearance>
+  </Frame>
+  <Properties>
+   <Size Width="1920" Height="1080"/>
+   <GrandMaster ChannelMode="Intensity" ValueMode="Reduce" SliderMode="Normal"/>
+  </Properties>
+ </VirtualConsole>
+ <SimpleDesk>
+  <Engine/>
+ </SimpleDesk>
+</Workspace>
