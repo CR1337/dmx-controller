@@ -1,6 +1,8 @@
-from pylibftdi import Device
-from ctypes import cdll, c_long, byref, Structure
+from ctypes import byref, cdll, c_long, Structure
+from threading import Event, Lock, Thread
 from typing import List, Tuple
+
+from pylibftdi import Device
 
 
 class Timespec(Structure):
@@ -13,11 +15,13 @@ class Timespec(Structure):
 class FtdiDmxInterface:
 
     LIBC = cdll.LoadLibrary("libc.so.6")
-    MS_PER_S: int = 1_000_000
-    NS_PER_MS: int = 1_000
-    US_PER_MS: int = 1_000
+    MS_PER_S: int = 1_000_000  # ms/s
+    NS_PER_MS: int = 1_000  # ns/ms
+    US_PER_MS: int = 1_000  # µs/ms
 
-    BAUDRATE: int = 250_000
+    BAUDRATE: int = 250_000  # kbits/s
+    BUS_TIMINGS: Tuple[int, int, int] = (96, 8, 2)  # µs, µs, ms
+    TIME_RESOLUTION: int = 5  # ms
 
     BITS_8: int = 8
     STOP_BITS_2: int = 2
@@ -44,21 +48,55 @@ class FtdiDmxInterface:
     _dmx_channels: List[int]
     _highest_updated_channel: int
 
-    def __init__(self):
+    _blackout_on_del: bool
+    _stopped: bool
+
+    _thread: Thread
+    _lock: Lock
+    _render_event: Event
+    _ready_event: Event
+    _stop_event: Event
+
+    def __init__(
+        self,
+        blackout_on_init: bool = True,
+        blackout_on_del: bool = True
+    ):
         self._ftdi_device = Device()
         self._ftdi_device.ftdi_fn.ftdi_set_baudrate(self.BAUDRATE)
         self._ftdi_device.ftdi_fn.ftdi_set_line_property(
             self.BITS_8, self.STOP_BITS_2, self.PARITY_NONE
         )
-        self.blackout()
+
+        self._blackout_on_del = blackout_on_del
+        self._stopped = False
+
+        self._thread = Thread(
+            target=self._thread_target,
+            name="ftdi_dmx_thread"
+        )
+        self._lock = Lock()
+        self._render_event = Event()
+        self._ready_event = Event()
+        self._stop_event = Event()
+        self._thread.start()
+
+        if blackout_on_init:
+            self.blackout()
+
+        self._ready_event.set()
 
     def __del__(self):
-        self.blackout()
-        self._ftdi_device.close()
+        if not self._stopped:
+            self.stop()
 
-    def reset(self):
-        self._dmx_channels = [0] * (self.CHANNEL_RANGE[-1] + 1)
-        self._highest_updated_channel = self.CHANNEL_RANGE[-1]
+    def stop(self):
+        if self._blackout_on_del:
+            self.blackout()
+        self._stop_event.set()
+        self._thread.join()
+        self._ftdi_device.close()
+        self._stopped = True
 
     def set_channel(self, channel: int, value: int):
         if not (self.CHANNEL_RANGE[0] <= channel <= self.CHANNEL_RANGE[-1]):
@@ -66,16 +104,18 @@ class FtdiDmxInterface:
         if not (self.VALUE_RANGE[0] <= value <= self.VALUE_RANGE[-1]):
             raise ValueError(f"Value {value} out of range.")
 
-        self._dmx_channels[channel] = value
-        self._highest_updated_channel = max(
-            self._highest_updated_channel, channel
-        )
+        with self._lock:
+            self._dmx_channels[channel] = value
+            self._highest_updated_channel = max(
+                self._highest_updated_channel, channel
+            )
 
     def get_channel(self, channel: int) -> int:
         if not (self.CHANNEL_RANGE[0] <= channel <= self.CHANNEL_RANGE[-1]):
             raise ValueError(f"Channel {channel} out of range.")
 
-        return self._dmx_channels[channel]
+        with self._lock:
+            return self._dmx_channels[channel]
 
     def __setitem__(self, key: int, value: int):
         self.set_channel(key, value)
@@ -84,24 +124,51 @@ class FtdiDmxInterface:
         return self.get_channel(key)
 
     def blackout(self):
-        self.reset()
+        with self._lock:
+            self._dmx_channels = [0] * (self.CHANNEL_RANGE[-1] + 1)
+            self._highest_updated_channel = self.CHANNEL_RANGE[-1]
         self.render()
 
     def render(self):
+        with self._lock:
+            self._render_event.set()
+
+    def _write_to_bus(self):
         data = bytes(self._dmx_channels[:self._highest_updated_channel + 1])
 
         self._ftdi_device.ftdi_fn.ftdi_set_line_property2(
             self.BITS_8, self.STOP_BITS_2, self.PARITY_NONE, self.BREAK_ON
         )
-        self._wait_us(96)
+        self._wait_us(self.BUS_TIMINGS[0])
         self._ftdi_device.ftdi_fn.ftdi_set_line_property2(
             self.BITS_8, self.STOP_BITS_2, self.PARITY_NONE, self.BREAK_OFF
         )
-        self._wait_us(8)
+        self._wait_us(self.BUS_TIMINGS[1])
         self._ftdi_device.write(data)
-        self._wait_ms(2)
+        self._wait_ms(self.BUS_TIMINGS[2])
 
         self._highest_updated_channel = 0
+
+    def _thread_target(self):
+        while not self._ready_event.is_set():
+            self._wait_ms(self.TIME_RESOLUTION)
+
+        while True:
+            if self._render_event.is_set():
+                with self._lock:
+                    self._write_to_bus()
+                    self._render_event.clear()
+
+            elif self._stop_event.is_set():
+                break
+
+            else:
+                with self._lock:
+                    tmp_highest_updated_channel = self._highest_updated_channel
+                    self._highest_updated_channel = 0
+                    self._write_to_bus()
+                    self._highest_updated_channel = tmp_highest_updated_channel
+                self._wait_ms(self.TIME_RESOLUTION)
 
 
 if __name__ == "__main__":
@@ -113,9 +180,31 @@ if __name__ == "__main__":
 
     import time
     from itertools import count
+    from random import randint
 
-    for i in count():
-        dmx[2] = i % 256
-        dmx[10] = 255 - (i % 256)
-        dmx.render()
-        time.sleep(0.01)
+    try:
+        for i in count():
+            dmx[2] = randint(0, 255)
+            dmx[3] = randint(0, 255)
+            dmx[4] = randint(0, 255)
+            dmx[5] = randint(0, 255)
+            dmx[10] = randint(0, 255)
+            dmx[11] = randint(0, 255)
+            dmx[12] = randint(0, 255)
+            dmx[13] = randint(0, 255)
+            dmx.render()
+            time.sleep(0.1)
+    except KeyboardInterrupt:
+        dmx.stop()
+
+    # dmx = AsyncFtdiDmxInterface()
+
+    # import time
+
+    # for i in range(1, 9):
+    #     dmx[i] = 255
+    #     dmx.render()
+    #     time.sleep(0.5)
+    #     dmx[i] = 0
+    #     dmx.render()
+    #     time.sleep(0.5)
